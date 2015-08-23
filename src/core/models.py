@@ -61,10 +61,10 @@ class Facebook(models.Model):
 	date = models.DateField(auto_now_add=True)
 
 	def __unicode__(self):
-		return u'%s %s' % (self.publication.name, self.total_count)
+		return u'%s %s' % (self.publication.title, self.total_count)
 
 	def __repr__(self):
-		return u'<Facebook %s>' % (self.publication.name, self.total_count)
+		return u'<Facebook %s>' % (self.publication.title, self.total_count)
 
 class Citation(models.Model):
 	'A crossref citation'
@@ -89,6 +89,7 @@ def q_choices():
 	return (
 		('twitter', 'Twitter'),
 		('crossref', 'Crossref'),
+		('facebook', 'Facebook'),
 	)
 
 class Queue(models.Model):

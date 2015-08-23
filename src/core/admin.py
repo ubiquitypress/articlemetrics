@@ -22,12 +22,17 @@ class CitationAdmin(admin.ModelAdmin):
 	search_fields = ('doi', 'article_title')
 	list_filter = ('publication',)
 
+class FacebookAdmin(admin.ModelAdmin):
+    list_display = ('publication', 'total_count')
+    list_filter = ('publication',)
+
 admin_list = [
     (Publisher, PublisherAdmin),
     (Publication, PublicationAdmin),
     (Tweet, TweetAdmin),
     (Queue, QueueAdmin),
     (Citation, CitationAdmin),
+    (Facebook, FacebookAdmin),
     (TwitterCredential,),
 ]
 

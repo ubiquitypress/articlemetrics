@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 from datetime import date
 
-url = 'http://doi.crossref.org/servlet/getForwardLinks?usr=%s&pwd=%s&doi=%s&startDate=1900-01-01&endDate=%s-12-31' % ('ubiq', 'ubiq809', '10.5334/sta.at', date.today().year)
-
 def get_crossref_citations(username, password, publication):
 	url = 'http://doi.crossref.org/servlet/getForwardLinks?usr=%s&pwd=%s&doi=%s&startDate=1900-01-01&endDate=%s-12-31' % (username, password, publication.identifier, date.today().year)
 	r = requests.get(url)
