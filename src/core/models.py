@@ -23,6 +23,7 @@ class Publication(models.Model):
 	title = models.CharField(max_length=1000)
 	identifier = models.CharField(max_length=200, help_text='Should be a doi, eg. 10.5334/cg.aa')
 	canonical_url = models.URLField(max_length=2000, help_text='Full URL with FQDN excluding http://')
+	canonical_url_two = models.URLField(max_length=2000, help_text='Full URL with FQDN excluding http://', blank=True, null=True)
 	date_published = models.DateField()
 
 	def __unicode__(self):
