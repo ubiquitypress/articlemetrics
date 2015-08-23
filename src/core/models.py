@@ -4,8 +4,12 @@ class Publisher(models.Model):
 	'A publisher like Ubiquity Press or University of California Press'
 	name = models.CharField(max_length=300, help_text='Publisher like Ubiquity Press or University of California Press')
 	doi_prefix = models.CharField(max_length=20, help_text='Publisher\'s CrossRef prefix')
+
 	crossref_username = models.CharField(max_length=100, blank=True, null=True)
 	crossref_password = models.CharField(max_length=100, blank=True, null=True)
+
+	facebook_client_id = models.CharField(max_length=200, blank=True, null=True)
+	facebook_client_secret = models.CharField(max_length=200, blank=True, null=True)
 
 	def __unicode__(self):
 		return u'%s' % self.name
