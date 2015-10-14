@@ -65,7 +65,7 @@ class Facebook(models.Model):
 		return u'%s %s' % (self.publication.title, self.total_count)
 
 	def __repr__(self):
-		return u'<Facebook %s>' % (self.publication.title, self.total_count)
+		return u'<Facebook %s %s>' % (self.publication.title, self.total_count)
 
 class Citation(models.Model):
 	'A crossref citation'
@@ -81,7 +81,20 @@ class Citation(models.Model):
 		return u'%s %s' % (self.publication.title, self.doi)
 
 	def __repr__(self):
-		return u'<Facebook %s>' % (self.publication.title, self.doi)
+		return u'<Crossref Citation %s %s>' % (self.publication.title, self.doi)
+
+class Wikipedia(models.Model):
+	'A Wikipedia citation'
+	publication = models.ForeignKey(Publication)
+	title = models.CharField(max_length=500)
+	snippet = models.TextField(max_length=2000)
+	timestamp = models.DateTimeField()
+
+	def __unicode__(self):
+		return u'%s %s' % (self.publication.title, self.title)
+
+	def __repr__(self):
+		return u'<Wikipedia Citation %s %s>' % (self.publication.title, self.doi) 
 
 
 ## UTIL MODELS ##
@@ -91,6 +104,7 @@ def q_choices():
 		('twitter', 'Twitter'),
 		('crossref', 'Crossref'),
 		('facebook', 'Facebook'),
+		('wikipedia', 'Wikipedia'),
 	)
 
 class Queue(models.Model):

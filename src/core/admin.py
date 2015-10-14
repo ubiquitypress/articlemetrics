@@ -26,6 +26,10 @@ class FacebookAdmin(admin.ModelAdmin):
     list_display = ('publication', 'total_count')
     list_filter = ('publication',)
 
+class WikipediaAdmin(admin.ModelAdmin):
+    list_display = ('publication', 'title', 'timestamp')
+    list_filter = ('publication',)
+
 admin_list = [
     (Publisher, PublisherAdmin),
     (Publication, PublicationAdmin),
@@ -33,6 +37,7 @@ admin_list = [
     (Queue, QueueAdmin),
     (Citation, CitationAdmin),
     (Facebook, FacebookAdmin),
+    (Wikipedia, WikipediaAdmin),
     (TwitterCredential,),
 ]
 
