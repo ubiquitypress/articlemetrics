@@ -15,7 +15,7 @@ def add_new_citation(publication, citation):
 	new_citation, created = models.Wikipedia.objects.get_or_create(publication=publication, title=citation.get('title'), defaults=defaults)
 
 	if created:
-		print 'Citation created for %s, %s - %s' % (publication.identifier, citation.get('title'))
+		print 'Citation created for %s, %s' % (publication.identifier, citation.get('title'))
 	else:
 		print 'Citation already exists.'
 
