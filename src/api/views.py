@@ -49,14 +49,17 @@ class PublicationViewSet(viewsets.ModelViewSet):
     queryset = models.Publication.objects.all().order_by('-date_published')
     serializer_class = serializers.PublicationSerializer
 
-@api_view(['POST'])
+@csrf_exempt
 def create_publication(request):
-    content = json.loads(request.POST.get('_content'))
+    content = request.GET
 
     try:
         publisher = models.Publisher.objects.get(name=content.get('publisher_name'))
     except models.Publisher.DoesNotExist:
         return HttpResponse(json.dumps({'response': 'Publisher "%s" not found' % content.get('publisher_name')}), content_type="application/json")
+
+    content.get('canonical_url')
+    content.get('canonical_url_two')
 
     defaults = {
         'title': content.get('title'),
@@ -66,8 +69,6 @@ def create_publication(request):
     }
 
     publication, created = models.Publication.objects.get_or_create(identifier=content.get('identifier'), publisher=publisher, defaults=defaults)
-
-    print publication, created
 
     if created:
         json_content = json.dumps({'response': 'New publication created'})

@@ -7,7 +7,7 @@ class PublisherAdmin(admin.ModelAdmin):
 
 class PublicationAdmin(admin.ModelAdmin):
 	list_display = ('title', 'identifier', 'publisher')
-	search_fields = ('identifier', 'cannonical_url')
+	search_fields = ('identifier', 'canonical_url')
 
 class TweetAdmin(admin.ModelAdmin):
     list_display = ('publication', 'user', 'url')
