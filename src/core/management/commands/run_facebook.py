@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from core import models
 from sources import facebook
 from pprint import pprint
+import time
 
 def add_new_citation(publication, citation):
 
@@ -36,3 +37,7 @@ class Command(BaseCommand):
 				print 'Facebook metrics created.'
 			else:
 				print 'Facebook metrics updated'
+
+			item.delete()
+			print "Waiting for 4 seconds before requesting again"
+			time.sleep(4)

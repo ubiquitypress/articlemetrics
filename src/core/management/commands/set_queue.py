@@ -21,7 +21,6 @@ class Command(BaseCommand):
 
 
 		pprint(source_list)
-		pprint(publication_list)
 
 		for source in source_list:
 			for publication in publication_list:

@@ -34,5 +34,6 @@ class Command(BaseCommand):
 					pprint(citation)
 					add_new_citation(item.publication, citation)
 
+			item.delete()
 			print "Waiting for 4 seconds before requesting again"
 			time.sleep(4)

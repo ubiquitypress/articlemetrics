@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from core import models
 from sources import crossref
 from pprint import pprint
+import time
 
 def add_new_citation(publication, citation):
 
@@ -32,3 +33,7 @@ class Command(BaseCommand):
 
 			for citation in cr_list:
 				add_new_citation(item.publication, citation)
+
+			item.delete()
+			print "Waiting for 4 seconds before requesting again"
+			time.sleep(4)

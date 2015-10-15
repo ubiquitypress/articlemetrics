@@ -21,6 +21,8 @@ def query_links(publication):
 	c_request = requests.get(canonical_url)
 	d_request = requests.get(doi_url)
 
+	print c_request.text
+
 	if publication.canonical_url_two:
 		ojs_request = requests.get(ojs_url)
 
