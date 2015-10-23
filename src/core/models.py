@@ -73,9 +73,9 @@ class Citation(models.Model):
 	doi = models.CharField(max_length=200)
 	journal_title = models.CharField(max_length=2000)
 	article_title = models.CharField(max_length=2000)
-	year = models.IntegerField(blank=True, null=True)
-	volume = models.IntegerField(blank=True, null=True)
-	issue = models.IntegerField(blank=True, null=True)
+	year = models.CharField(max_length=200, blank=True, null=True)
+	volume = models.CharField(max_length=200, blank=True, null=True)
+	issue = models.CharField(max_length=200, blank=True, null=True)
 
 	def __unicode__(self):
 		return u'%s %s' % (self.publication.title, self.doi)
