@@ -17,7 +17,8 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		source_list = options['sources'][0].split(',')
-		publication_list = models.Publication.objects.all().order_by('-date_published')
+		# Temporarily exclude UP as have already created citations
+		publication_list = models.Publication.objects.exclude(publisher__name="Ubiquity Press").order_by('-date_published')
 		pub_count = publication_list.count()
 		count = 0
 
