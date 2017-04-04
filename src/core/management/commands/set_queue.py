@@ -10,7 +10,7 @@ def add_publication_to_queue(publication, source):
 		return new_queue_object
 
 class Command(BaseCommand):
-	help = 'Adds items to the twitter search Q'
+	help = "Adds items to the queue; takes metric type e.g. 'crossref' as argument"
 
 	def add_arguments(self, parser):
 		parser.add_argument('sources', nargs='+', type=str)

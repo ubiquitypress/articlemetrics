@@ -45,5 +45,5 @@ class Command(BaseCommand):
             count += 1
             print "Processed queue item {}/{}.".format(count, q_count)
             item.delete()
-            print "Waiting for 1 second before requesting again"
-            time.sleep(1)
+            print "Waiting for 0.5 seconds before requesting again"
+            time.sleep(0.5)
