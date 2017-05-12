@@ -16,7 +16,7 @@ def get_crossref_citations(username, password, publication):
 			{
 				'doi': item.find('doi').text,
 				'journal_title': item.find('journal_title').text,
-				'article_title': item.find('article_title').text if item.find('article_title') else 'Title not found',
+				'article_title': item.find('article_title').text if item.find('article_title') else '[Title not found]',
 				'volume': item.find('volume').text if item.find('volume') else None,
 				'issue': item.find('issue').text if item.find('issue') else None,
 				'year': item.find('year').text if item.find('year') else None,
