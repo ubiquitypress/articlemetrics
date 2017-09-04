@@ -16,10 +16,10 @@ RUN export PATH=$PATH:/usr/local/mysql/bin
 RUN pip install mysql-python
 
 COPY src src
+COPY ./docker-entrypoint.sh /
 
 EXPOSE 8000
 
-WORKDIR src
+ENV DJANGO_SETTINGS_MODULE=core.docker_settings
 
-ENV DJANGO_SETTINGS_MODULE=core.live_settings
-CMD ["python", "manage.py", "runserver"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
