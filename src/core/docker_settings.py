@@ -22,9 +22,11 @@ SECRET_KEY = '7qhqcqmbcx6_l(o6dg9u4!@lafw4(fp+6j*+_8v67bz#-r6au_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'altm.ubiquity.press'
+]
 
 
 # Application definition
@@ -42,8 +44,6 @@ INSTALLED_APPS = (
 
     'rest_framework',
 )
-
-CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,11 +67,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'altm',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'USER': 'altm',
+        'PASSWORD': 'hySPVknVSJvJHkR',
+        'HOST': 'mariadb-1.databases.ead2ca44.cont.dockerapp.io',
         'PORT': '3306',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
 }
 
 # Internationalization
@@ -90,5 +94,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected-static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static-assets'),
+)
 STATIC_URL = '/static/'
