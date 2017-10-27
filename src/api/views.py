@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -6,16 +8,11 @@ from rest_framework import serializers, viewsets
 from rest_framework import permissions
 
 from api import serializers
-
-import json
-
 from core import models
 
 
 class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
+    """ An HttpResponse that renders its content into JSON. """
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
@@ -37,9 +34,8 @@ def index(request):
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows books to be viewed or edited.
-    """
+    """ API endpoint that allows books to be viewed or edited. """
+
     queryset = models.Publication.objects.all().order_by('-date_published')
     serializer_class = serializers.PublicationSerializer
 
@@ -49,9 +45,17 @@ def create_publication(request):
     content = request.GET
 
     try:
-        publisher = models.Publisher.objects.get(name=content.get('publisher_name'))
+        publisher = models.Publisher.objects.get(
+            name=content.get('publisher_name')
+        )
     except models.Publisher.DoesNotExist:
-        return HttpResponse(json.dumps({'response': 'Publisher "%s" not found' % content.get('publisher_name')}), content_type="application/json")
+        return HttpResponse(
+            json.dumps({
+                'response':
+                'Publisher "%s" not found' % content.get('publisher_name')
+            }),
+            content_type="application/json"
+        )
 
     content.get('canonical_url')
     content.get('canonical_url_two')
@@ -63,7 +67,11 @@ def create_publication(request):
         'date_published': content.get('date_published'),
     }
 
-    publication, created = models.Publication.objects.get_or_create(identifier=content.get('identifier'), publisher=publisher, defaults=defaults)
+    publication, created = models.Publication.objects.get_or_create(
+        identifier=content.get('identifier'),
+        publisher=publisher,
+        defaults=defaults,
+    )
 
     if created:
         json_content = json.dumps({'response': 'New publication created'})

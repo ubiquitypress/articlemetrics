@@ -2,7 +2,10 @@ import TwitterSearch
 
 
 def twitter_queue():
-    'Takes the last used set of twitter credentials and executes the Q until it reaches a count of 160.'
+    """
+    Takes the last used set of twitter credentials and executes the Q until it
+    reaches a count of 160.
+    """
     credentials = models.TwitterCredentials.objects.order_by('last_used')
 
     search_counter = 0
@@ -18,7 +21,7 @@ def twitter_queue():
         access_token_secret=creds.access_token_secret,
     )
 
-    # Once this set has been used for 160 queries, switch to second set of creds.
+    # Once this set has been used for 160 queries, switch to second set.
     if counter >= 160 and cred_counter < total_cred_counter:
 
         cred_counter += 1
