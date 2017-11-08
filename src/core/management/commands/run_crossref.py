@@ -35,13 +35,18 @@ class Command(BaseCommand):
         count = 0
 
         for item in q:
-            cr_list = crossref.get_crossref_citations(item.publication.publisher.crossref_username,
-            										  item.publication.publisher.crossref_password,
-            										  item.publication)
+            try:
+                from ipdb import set_trace; set_trace()
+                cr_list = crossref.get_crossref_citations(item.publication.publisher.crossref_username,
+                                                          item.publication.publisher.crossref_password,
+                                                          item.publication)
 
-            for citation in cr_list:
-                add_new_citation(item.publication, citation)
+                for citation in cr_list:
+                    add_new_citation(item.publication, citation)
 
-            count += 1
-            print "Processed queue item {}/{}.".format(count, q_count)
+                count += 1
+                print "Processed queue item {}/{}.".format(count, q_count)
+            except Exception as e:
+                print e
+
             item.delete()
