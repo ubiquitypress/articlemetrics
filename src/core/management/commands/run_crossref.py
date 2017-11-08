@@ -36,7 +36,6 @@ class Command(BaseCommand):
 
         for item in q:
             try:
-                from ipdb import set_trace; set_trace()
                 cr_list = crossref.get_crossref_citations(item.publication.publisher.crossref_username,
                                                           item.publication.publisher.crossref_password,
                                                           item.publication)
