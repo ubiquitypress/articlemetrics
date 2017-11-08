@@ -66,10 +66,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'altm',
-        'USER': 'altm',
-        'PASSWORD': 'hySPVknVSJvJHkR',
-        'HOST': 'mariadb-1.databases.ead2ca44.cont.dockerapp.io',
+        'NAME': 'altmetrics',
+        'USER': 'tech',
+        'PASSWORD': 'JFb9ENuc',
+        'HOST': 'prod2.cpyeaufavspw.eu-west-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }

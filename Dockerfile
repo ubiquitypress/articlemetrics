@@ -18,7 +18,7 @@ RUN pip install mysql-python
 COPY src src
 COPY ./docker-entrypoint.sh /
 
-EXPOSE 8000
+EXPOSE 8888
 
 ENV DJANGO_SETTINGS_MODULE=core.docker_settings
 
