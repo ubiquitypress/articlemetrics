@@ -12,7 +12,7 @@ cd src
 echo Starting Gunicorn.
 exec gunicorn core.wsgi:application \
     --name articlemetrics \
-    --bind 0.0.0.0:8000 \
+    --bind 0.0.0.0:8888 \
     --workers 3 \
     --log-level=info \
     --log-file=/srv/logs/gunicorn.log \
