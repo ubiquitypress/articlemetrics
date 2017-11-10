@@ -66,10 +66,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'altm',
-        'USER': 'altm',
-        'PASSWORD': 'hySPVknVSJvJHkR',
-        'HOST': '127.0.0.1',
+        'NAME': 'articlemetrics',
+        'USER': 'artmetrics_user',
+        'PASSWORD': 'MATUeEBinQnztN0j',
+        'HOST': 'prod2.cpyeaufavspw.eu-west-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
