@@ -69,7 +69,7 @@ DATABASES = {
         'NAME': 'altm',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'HOST': os.getenv('DB_HOST', 'altm-db'),
         'PORT': '3306',
     }
 }
@@ -92,3 +92,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': (
+        'rest_framework.pagination.PageNumberPagination'
+    ),
+    'PAGE_SIZE': 100,
+}

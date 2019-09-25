@@ -10,11 +10,6 @@ router.register(r'publications', views.PublicationViewSet)
 urlpatterns = patterns(
     '',
     url(
-        r'^$',
-        'api.views.index',
-        name='index'
-    ),
-    url(
         r'^create/publication/$',
         'api.views.create_publication',
         name='create_publication'

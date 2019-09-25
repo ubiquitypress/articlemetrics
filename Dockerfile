@@ -9,7 +9,9 @@ RUN apk add\
     gcc \
     build-base \
     python-dev \
-    mariadb-dev
+    mariadb-dev \
+    libxml2-dev \
+    libxslt-dev
 
 RUN pip install -r requirements.txt
 RUN export PATH=$PATH:/usr/local/mysql/bin
