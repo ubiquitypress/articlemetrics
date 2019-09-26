@@ -1,0 +1,21 @@
+version: '3'
+services:
+  altm-db:
+    image: mariadb
+    environment:
+      - MYSQL_DATABASE=altm
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    expose:
+      - 3306
+
+  articlemetrics:
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.dev_settings
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./docker-entrypoint.sh:/docker-entrypoint.sh
+    ports:
+      - "8888:8888"
+    depends_on:
+      - altm-db
