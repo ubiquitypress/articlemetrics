@@ -1,13 +1,16 @@
+from itertools import chain, islice
+
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core import models
 from sources import crossref
-from pprint import pprint
-import time
 
-def add_new_citation(publication, citation):
 
-    defaults = {
+def add_new_citation(citation):
+    kwargs = {
+        'publication': citation.get('publication'),
+        'doi': citation.get('doi'),
         'journal_title': citation.get('journal_title'),
         'article_title': citation.get('article_title'),
         'volume': citation.get('volume'),
@@ -15,37 +18,57 @@ def add_new_citation(publication, citation):
         'year': citation.get('year'),
     }
 
-    new_citation, created = models.Citation.objects.get_or_create(
-        publication=publication,
-        doi=citation.get('doi'),
-        defaults=defaults
+    new_citation = models.Citation(
+        **kwargs
     )
 
-    if created:
-        print 'Citation created for %s, %s - %s' % (publication.title, citation.get('doi'), citation.get('article_title'))
-    else:
-        print 'Citation already exists.'
+    return new_citation
+
+
+def citations_generator(queue):
+    for citations in (
+            crossref.get_crossref_citations(
+                item.publication.publisher.crossref_username,
+                item.publication.publisher.crossref_password,
+                item.publication
+            )
+            for item in queue
+    ):
+        yield citations
+
 
 class Command(BaseCommand):
     help = 'Queries crossref.'
 
     def handle(self, *args, **options):
-        q = models.Queue.objects.filter(source='crossref')
-        q_count = q.count()
-        count = 0
+        queue = models.Queue.objects.filter(
+            source='crossref'
+        )
 
-        for item in q:
-            try:
-                cr_list = crossref.get_crossref_citations(item.publication.publisher.crossref_username,
-                                                          item.publication.publisher.crossref_password,
-                                                          item.publication)
+        batch_generator = (
+            add_new_citation(citation)
+            for citation in chain(
+                    *(
+                        citations_generator(queue)
+                    )
+            )
+            if not models.Citation.objects.filter(
+                    publication=citation.get('publication'),
+                    doi=citation.get('doi')
+            )
+        )
+        while True:
+            batch = list(
+                islice(
+                    batch_generator,
+                    settings.SQL_BULK_INSERT_BATCH_SIZE
+                )
+            )
+            if not batch:
+                break
+            models.Citation.objects.bulk_create(
+                batch,
+                settings.SQL_BULK_INSERT_BATCH_SIZE
+            )
 
-                for citation in cr_list:
-                    add_new_citation(item.publication, citation)
-
-                count += 1
-                print "Processed queue item {}/{}.".format(count, q_count)
-            except Exception as e:
-                print e
-
-            item.delete()
+        queue.delete()

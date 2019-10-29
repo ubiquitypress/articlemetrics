@@ -11,14 +11,15 @@ def get_crossref_citations(username, password, publication):
             username, password, publication.identifier, date.today().year
         )
     )
-    r = requests.get(url)
+    response = requests.get(url)
 
-    soup = BeautifulSoup(r.text, "xml")
+    soup = BeautifulSoup(response.text, "xml")
 
     cr_list = []
     for item in soup.find_all('journal_cite'):
         cr_list.append(
             {
+                'publication': publication,
                 'doi': item.find('doi').text,
                 'journal_title': item.find('journal_title').text,
                 'article_title': item.find('article_title').text if item.find(
