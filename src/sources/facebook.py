@@ -19,9 +19,9 @@ def get_token(client_id, client_secret):
         'client_secret=%s&grant_type=client_credentials' % (
             client_id, client_secret)
     )
-    r = requests.get(url)
+    response = requests.get(url)
 
-    return r.text[13:]
+    return response.text[13:]
 
 
 def query_links(publication):

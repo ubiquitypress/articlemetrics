@@ -99,3 +99,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static-assets'),
 )
 STATIC_URL = '/static/'
+
+SQL_BULK_INSERT_BATCH_SIZE = 500
