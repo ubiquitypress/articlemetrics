@@ -3,34 +3,10 @@ import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework import serializers, viewsets
-from rest_framework import permissions
+from rest_framework import viewsets
 
 from api import serializers
 from core import models
-
-
-class JSONResponse(HttpResponse):
-    """ An HttpResponse that renders its content into JSON. """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
-
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny, ))
-def index(request):
-    response_dict = {
-        'Message': 'Welcome to the API',
-        'Version': '1.0',
-        'API Endpoints':
-            [],
-    }
-    json_content = json.dumps(response_dict)
-
-    return HttpResponse(json_content, content_type="application/json")
 
 
 class PublicationViewSet(viewsets.ModelViewSet):

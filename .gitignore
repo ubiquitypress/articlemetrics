@@ -60,3 +60,6 @@ db.sqlite3
 src/core/settings.py
 
 *.idea
+
+# Emacs stuff
+*~
