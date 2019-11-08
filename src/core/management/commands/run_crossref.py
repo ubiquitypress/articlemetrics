@@ -45,30 +45,31 @@ class Command(BaseCommand):
             source='crossref'
         )
 
-        batch_generator = (
-            add_new_citation(citation)
-            for citation in chain(
-                    *(
-                        citations_generator(queue)
-                    )
-            )
-            if not models.Citation.objects.filter(
-                    publication=citation.get('publication'),
-                    doi=citation.get('doi')
-            )
-        )
-        while True:
-            batch = list(
-                islice(
-                    batch_generator,
-                    settings.SQL_BULK_INSERT_BATCH_SIZE
+        try:
+            batch_generator = (
+                add_new_citation(citation)
+                for citation in chain(
+                        *(
+                            citations_generator(queue)
+                        )
+                )
+                if not models.Citation.objects.filter(
+                        publication=citation.get('publication'),
+                        doi=citation.get('doi')
                 )
             )
-            if not batch:
-                break
-            models.Citation.objects.bulk_create(
-                batch,
-                settings.SQL_BULK_INSERT_BATCH_SIZE
-            )
-
-        queue.delete()
+            while True:
+                batch = list(
+                    islice(
+                        batch_generator,
+                        settings.SQL_BULK_INSERT_BATCH_SIZE
+                    )
+                )
+                if not batch:
+                    break
+                models.Citation.objects.bulk_create(
+                    batch,
+                    settings.SQL_BULK_INSERT_BATCH_SIZE
+                )
+        finally:
+            queue.delete()
