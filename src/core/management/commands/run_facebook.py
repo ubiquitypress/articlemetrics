@@ -1,8 +1,12 @@
+import logging
+
 from django.core.management.base import BaseCommand
 
 from core import models
 from sources import facebook
 import time
+
+logger = logging.getLogger('django')
 
 
 def add_new_citation(publication, citation):
@@ -37,6 +41,7 @@ class Command(BaseCommand):
     help = 'Queries facebook.'
 
     def handle(self, *args, **options):
+        logger.info('start facebook queue')
         queue = models.Queue.objects.filter(source='facebook')
 
         for item in queue:
@@ -47,11 +52,7 @@ class Command(BaseCommand):
                 defaults=facebook_count
             )
 
-            if created:
-                print('Facebook metrics created.')
-            else:
-                print('Facebook metrics updated')
-
             item.delete()
-            print('Waiting for 4 seconds before requesting again')
             time.sleep(4)
+
+        logger.info('end facebook queue')

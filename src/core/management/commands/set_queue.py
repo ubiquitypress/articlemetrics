@@ -1,9 +1,12 @@
 from itertools import chain, islice
+import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core import models
+
+logger = logging.getLogger('django')
 
 
 def add_publication_to_queue(publication, source):
@@ -25,6 +28,7 @@ class Command(BaseCommand):
         parser.add_argument('sources', nargs='+', type=str)
 
     def handle(self, *args, **options):
+        logger.info('start set queue')
         source_list = options['sources'][0].split(',')
         publication_list = models.Publication.objects.all().order_by(
             '-date_published'
@@ -53,3 +57,5 @@ class Command(BaseCommand):
                 batch,
                 settings.SQL_BULK_INSERT_BATCH_SIZE
             )
+
+        logger.info('end set queue')

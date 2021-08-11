@@ -1,10 +1,13 @@
 from itertools import chain, islice
+import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core import models
 from sources import crossref
+
+logger = logging.getLogger('django')
 
 
 def add_new_citation(citation):
@@ -41,6 +44,7 @@ class Command(BaseCommand):
     help = 'Queries crossref.'
 
     def handle(self, *args, **options):
+        logger.info('start run_crossref')
         queue = models.Queue.objects.filter(
             source='crossref'
         )
@@ -73,3 +77,5 @@ class Command(BaseCommand):
                 )
         finally:
             queue.delete()
+
+        logger.debug('end run_crossref')

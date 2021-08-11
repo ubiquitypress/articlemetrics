@@ -1,9 +1,13 @@
+import logging
+
 from django.core.management.base import BaseCommand
 
 from core import models
 from sources import wikipedia
 from pprint import pprint
 import time
+
+logger = logging.getLogger('django')
 
 
 def add_new_citation(publication, citation):
@@ -34,6 +38,7 @@ class Command(BaseCommand):
     help = 'Queries wikipedia.'
 
     def handle(self, *args, **options):
+        logger.info('start wikipedia queue')
         q = models.Queue.objects.filter(source='wikipedia')
 
         for item in q:
@@ -48,3 +53,5 @@ class Command(BaseCommand):
             item.delete()
             print('Waiting for 4 seconds before requesting again')
             time.sleep(4)
+
+        logger.info('end wikipedia queue')
