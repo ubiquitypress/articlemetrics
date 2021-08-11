@@ -1,7 +1,10 @@
 import json
+import logging
 
 import facebook
 import requests
+
+logger = logging.getLogger('django')
 
 
 def query_graph_api(token):
@@ -36,6 +39,12 @@ def query_links(publication):
     ojs_url = (
         'https://api.facebook.com/method/links.getStats?'
         'urls=%s&format=json' % publication.canonical_url_two
+    )
+
+    logger.info(
+        'start facebook: {url}'.format(
+            url=doi_url
+        )
     )
 
     c_request = requests.get(canonical_url)
@@ -98,5 +107,11 @@ def query_links(publication):
         facebook_counts['total_count'] = (
             facebook_counts['total_count'] + ojs_dict.get('total_count', 0)
         )
+
+    logger.info(
+        'end facebook: {url}'.format(
+            url=doi_url
+        )
+    )
 
     return facebook_counts
