@@ -56,6 +56,7 @@ class Publication(models.Model):
 
     publisher = models.ForeignKey(
         Publisher,
+        on_delete=models.CASCADE
     )
     title = models.CharField(
         max_length=1000,
@@ -88,6 +89,7 @@ class Tweet(models.Model):
 
     publication = models.ForeignKey(
         Publication,
+        on_delete=models.CASCADE,
     )
     content = models.TextField()
     user = models.CharField(
@@ -117,6 +119,7 @@ class Facebook(models.Model):
 
     publication = models.ForeignKey(
         Publication,
+        on_delete=models.CASCADE
     )
     share_count = models.IntegerField(
         default=0,
@@ -149,6 +152,7 @@ class Citation(models.Model):
 
     publication = models.ForeignKey(
         Publication,
+        on_delete=models.CASCADE,
     )
     doi = models.CharField(
         max_length=200,
@@ -187,6 +191,7 @@ class Wikipedia(models.Model):
 
     publication = models.ForeignKey(
         Publication,
+        on_delete=models.CASCADE
     )
     title = models.CharField(
         max_length=500,
@@ -208,6 +213,7 @@ class Wikipedia(models.Model):
 class Queue(models.Model):
     publication = models.ForeignKey(
         Publication,
+        on_delete=models.CASCADE,
     )
     source = models.CharField(
         max_length=100,

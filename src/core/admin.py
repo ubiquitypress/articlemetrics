@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from models import *
+from .models import (
+    Publisher,
+    Publication,
+    Tweet,
+    Queue,
+    Citation,
+    Facebook,
+    Wikipedia,
+    TwitterCredential
+)
 
 
 class PublisherAdmin(admin.ModelAdmin):

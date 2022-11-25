@@ -109,9 +109,9 @@ LOGGING = {
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s: %(message)s'
         },
-        'simple': {
-            'format': '%{levelname}s %{message}s',
-        },
+        # 'simple': {
+        #     'format': '%{levelname}s %{message}s',
+        # },
     },
     'handlers': {
         'file': {
@@ -129,5 +129,28 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+    },
+}
+
+
+# ## CELERY ##
+
+RMQ_USER = os.getenv('RMQ_USER', 'guest')
+RMQ_PASS = os.getenv('RMQ_PASS', 'guest')
+RMQ_HOST = os.getenv('RMQ_HOST', 'localhost')
+RMQ_PORT = os.getenv('RMQ_PORT', '5672')
+
+CELERY_BROKER_URL = 'amqp://{user}:{password}@{host}:{port}/zipper'.format(
+    user=RMQ_USER,
+    password=RMQ_PASS,
+    host=RMQ_HOST,
+    port=RMQ_PORT,
+)
+
+CELERY_TASK_ROUTES = {
+    'update-twitter-feed': {
+        'queue': 'queue_{code}'.format(
+            code='articlemetrics'
+        )
     },
 }
