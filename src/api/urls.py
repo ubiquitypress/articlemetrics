@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.urls import include, re_path
 
 from rest_framework import routers
 
@@ -7,15 +7,14 @@ from api import views
 router = routers.DefaultRouter()
 router.register(r'publications', views.PublicationViewSet)
 
-urlpatterns = patterns(
-    '',
-    url(
+urlpatterns = [
+    re_path(
         r'^create/publication/$',
-        'api.views.create_publication',
+        views.create_publication,
         name='create_publication'
     ),
-    url(
+    re_path(
         r'^',
         include(router.urls)
     ),
-)
+]

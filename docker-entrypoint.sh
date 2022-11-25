@@ -11,6 +11,7 @@ cd src
 # Start Gunicorn processes
 echo Starting Gunicorn.
 exec gunicorn core.wsgi:application \
+    --preload \
     --name articlemetrics \
     --bind 0.0.0.0:8888 \
     --workers 3 \

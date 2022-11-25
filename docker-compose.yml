@@ -1,5 +1,8 @@
 version: '3'
 services:
+  rabbitmq:
+    image: rabbitmq
+
   altm-db:
     image: mariadb
     environment:
@@ -12,10 +15,13 @@ services:
     build: .
     environment:
       - DJANGO_SETTINGS_MODULE=core.dev_settings
+      - RMQ_HOST=rabbitmq
     volumes:
       - ./src:/usr/src/app/src
       - ./docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./logs:/srv/logs/
     ports:
       - "8888:8888"
     depends_on:
       - altm-db
+      - rabbitmq
